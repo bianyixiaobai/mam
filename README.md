@@ -67,10 +67,19 @@ python -m inference --step_id 9 --question 'What does the picture show?' --file_
 If you find our paper and code useful in your research, please consider giving a star :star: and citation :pencil:.
 
 ```BibTeX
-@article{zhou2025mam,
-  title={MAM: Modular Multi-Agent Framework for Multi-Modal Medical Diagnosis via Role-Specialized Collaboration},
-  author={Zhou, Yucheng and Song, Lingran and Shen, Jianbing},
-  journal={arXiv preprint arXiv:2506.19835},
-  year={2025}
+@inproceedings{zhou-etal-2025-mam,
+    title = "{MAM}: Modular Multi-Agent Framework for Multi-Modal Medical Diagnosis via Role-Specialized Collaboration",
+    author = "Zhou, Yucheng  and
+      Song, Lingran  and
+      Shen, Jianbing",
+    booktitle = "Findings of the Association for Computational Linguistics: ACL 2025",
+    month = jul,
+    year = "2025",
+    address = "Vienna, Austria",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.findings-acl.1298/",
+    doi = "10.18653/v1/2025.findings-acl.1298",
+    pages = "25319--25333",
+    ISBN = "979-8-89176-256-5"
 }
 ```

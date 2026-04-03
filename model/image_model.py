@@ -10,8 +10,22 @@ import torch
 
 from PIL import Image
 
+# Singleton cache: load once, reuse everywhere
+_instance = None
+
 class HuatuoChatbot():
-    def __init__(self, model_dir="FreedomIntelligence/HuatuoGPT-Vision-7B", device = 'cuda'):
+    def __new__(cls, model_dir="FreedomIntelligence/HuatuoGPT-Vision-7B", device = 'cuda:0'):
+        global _instance
+        if _instance is not None:
+            return _instance
+        instance = super().__new__(cls)
+        _instance = instance
+        return instance
+
+    def __init__(self, model_dir="FreedomIntelligence/HuatuoGPT-Vision-7B", device = 'cuda:0'):
+        # Only initialize once
+        if hasattr(self, '_initialized') and self._initialized:
+            return
         self.model_dir = model_dir
 
         self.gen_kwargs = {
@@ -27,6 +41,8 @@ class HuatuoChatbot():
         self.images = []
         self.debug = True
         self.max_image_num = 6
+        _instance = self
+        self._initialized = True
         
 
     def init_components(self):
@@ -284,6 +300,8 @@ class HuatuoChatbot():
         images: list[str], images for this round
         text: str
         '''
+        # Clear history for clean state per call (singleton mode)
+        self.clear_history()
         text = self.input_moderation(text)
         if text == '':
             return 'Please type in something'

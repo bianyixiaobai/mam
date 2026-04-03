@@ -1,8 +1,21 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
+# Singleton cache: load once, reuse everywhere
+_instance = None
+
 class MedicalAssistant:
-    def __init__(self, model_name="sethuiyer/Medichat-Llama3-8B", device="cuda"):
+    def __new__(cls, model_name="sethuiyer/Medichat-Llama3-8B", device="cuda:0"):
+        global _instance
+        if _instance is not None:
+            return _instance
+        instance = super().__new__(cls)
+        _instance = instance
+        return instance
+
+    def __init__(self, model_name="sethuiyer/Medichat-Llama3-8B", device="cuda:0"):
+        if hasattr(self, '_initialized') and self._initialized:
+            return
         self.device = device
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModelForCausalLM.from_pretrained(model_name).to(self.device)
@@ -10,6 +23,8 @@ class MedicalAssistant:
         You are an AI Medical Assistant trained on a vast dataset of health information. Please be thorough and
         provide an informative answer. If you don't know the answer to a specific medical inquiry, advise seeking professional help.
         '''
+        _instance = self
+        self._initialized = True
 
     def format_prompt(self, question, sys_message=None):
         if not sys_message:

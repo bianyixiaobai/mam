@@ -1,9 +1,5 @@
 import json
 from Google_Search_API_Wrapper.google_search_api import GoogleSearchAPI
-from model.language_model import MedicalAssistant
-from model.image_model import HuatuoChatbot
-from model.video_model import VideoLLaMAChatbot
-from model.audio_model import AudioChatbot
 
 data_file='path/to/2406_data'
 
@@ -40,6 +36,7 @@ def WebSearchCheck(question, file_name, modality_type):
         output = GoogleSearchAPI().response(method='text', max_results=3, query=qq)
 
     elif modality_type=='image':
+        from model.image_model import HuatuoChatbot
         p=get_image_describe()
         bot = HuatuoChatbot()
         describe = bot.chat(images=file_name, text=p)
@@ -48,6 +45,7 @@ def WebSearchCheck(question, file_name, modality_type):
         output = GoogleSearchAPI().response(method='text', max_results=3, query=qq)
 
     elif modality_type=='video':
+        from model.video_model import VideoLLaMAChatbot
         p=get_video_describe()
         bot = VideoLLaMAChatbot()
         describe = bot.chat(paths=file_name,text=p, modal_type='video')
@@ -56,6 +54,7 @@ def WebSearchCheck(question, file_name, modality_type):
         output = GoogleSearchAPI().response(method='text', max_results=3, query=qq)
 
     elif modality_type=='audio':
+        from model.audio_model import AudioChatbot
         p=get_audio_describe()
         bot = AudioChatbot()
         describe = bot.chat(audio=file_name,text=p)
@@ -63,6 +62,7 @@ def WebSearchCheck(question, file_name, modality_type):
         print(qq)
         output = GoogleSearchAPI().response(method='text', max_results=3, query=qq)
         
+    from model.language_model import MedicalAssistant
     sp = get_search_summarize_prompt(output)
     bot_s = MedicalAssistant()
     search_r = bot_s.generate_response(sp, max_new_tokens=256)

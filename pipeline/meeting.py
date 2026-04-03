@@ -1,12 +1,7 @@
 import re
 import random
-from model.language_model import MedicalAssistant
-from model.image_model import HuatuoChatbot
-from model.video_model import VideoLLaMAChatbot
-from model.audio_model import AudioChatbot
 
 #data_file='2406_data_example'
-
 
 def get_discuss_prompt(role_name, role_responsibilities, question, disease_type):
     prompt = f'''You are a {role_name}, responsible for the following tasks: {role_responsibilities}. Please thoughtfully express your views for the following question.
@@ -80,21 +75,26 @@ class Role:
     def discuss(self, question, file_name, modality_type, type_name):
         query = get_discuss_prompt(self.name, self.responsibilities, question, type_name)
         if modality_type=='image':
+            from model.image_model import HuatuoChatbot
             bot = HuatuoChatbot()
             output = bot.chat(images=file_name, text=query)
         elif modality_type=='audio':
+            from model.audio_model import AudioChatbot
             bot = AudioChatbot()
             output = bot.chat(audio=file_name,text=query)
         elif modality_type=='video':
+            from model.video_model import VideoLLaMAChatbot
             bot = VideoLLaMAChatbot()
             output = bot.chat(paths=file_name, text=query, modal_type='video')
         elif modality_type=='text':
+            from model.language_model import MedicalAssistant
             assistant = MedicalAssistant()
             output = assistant.generate_response(query, max_new_tokens=512)
         return output
 
 class Moderator:
     def determine(self, dis):
+        from model.language_model import MedicalAssistant
         query = get_determine_prompt(dis)
         assistant = MedicalAssistant()
         output = assistant.generate_response(query, max_new_tokens=512)
@@ -103,6 +103,7 @@ class Moderator:
         else:
             return False
     def summarize(self, question, record_discussions):
+        from model.language_model import MedicalAssistant
         query = get_summarize_prompt(question,record_discussions)
         summary = "Summary of discussions:\n"
         assistant = MedicalAssistant()
@@ -116,15 +117,19 @@ class Moderator:
         for role in roles:
             query = get_vote_prompt(role.name, role.responsibilities, question, summary)
             if modality_type=='image':
+                from model.image_model import HuatuoChatbot
                 bot = HuatuoChatbot()
                 output = bot.chat(images=file_name, text=query)
             elif modality_type=='audio':
+                from model.audio_model import AudioChatbot
                 bot = AudioChatbot()
                 output = bot.chat(audio=file_name,text=query)
             elif modality_type=='video':
+                from model.video_model import VideoLLaMAChatbot
                 bot = VideoLLaMAChatbot()
                 output = bot.chat(paths=file_name, text=query, modal_type='video')
             elif modality_type=='text':
+                from model.language_model import MedicalAssistant
                 assistant = MedicalAssistant()
                 output = assistant.generate_response(query, max_new_tokens=512)
 

@@ -1,9 +1,5 @@
-from model.language_model import MedicalAssistant
-from model.image_model import HuatuoChatbot
-from model.video_model import VideoLLaMAChatbot
-from model.audio_model import AudioChatbot
-
 def generate_role(disease_type, modality_type, question, file_name):
+    from model.language_model import MedicalAssistant
     system_prompt = f"Given a disease type, generate a system prompt that assigns tasks to relevant medical roles, including **Specialist Doctor**, **Radiologic Technologist**, etc, from the perspective of a General Practitioner."
     user_prompt = f'''Input: The modality type is {modality_type}, the disease type is {disease_type}, and the patient question is {question}.
     Output:

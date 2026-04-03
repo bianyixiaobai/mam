@@ -1,15 +1,10 @@
-import json
 import os
 import re
-from pipeline.modality_selection import modality_selection
-from model.language_model import MedicalAssistant
-from model.image_model import HuatuoChatbot
-from model.video_model import VideoLLaMAChatbot
-from model.audio_model import AudioChatbot
 
 def type_classification(modality, ques, file_name):
     data_file='2406_data_example'
     if modality=='image':
+        from model.image_model import HuatuoChatbot
         image_paths = [os.path.join(data_file,file_name)]
         bot = HuatuoChatbot()
         query = 'Please answer with a single word: What kind of medical image is this? X-Ray, CT, MRI, Pathology, Biomedical'
@@ -20,18 +15,21 @@ def type_classification(modality, ques, file_name):
             return output, output_more
         return output
     elif modality=='audio':
+        from model.audio_model import AudioChatbot
         bot = AudioChatbot()
         audio_paths = os.path.join(data_file,file_name)
         query = 'Please answer with a single word: What kind of audio is this? Cardiovascular, Respiratory'
         output = bot.chat(audio=audio_paths,text=query)
         return output
     elif modality=='video':
+        from model.video_model import VideoLLaMAChatbot
         video_paths = [os.path.join(data_file, file_name)]
         bot = VideoLLaMAChatbot()
         query = 'Please answer with a single word: What kind of video is this? Sports, Rehabilitation, Emergency'
         output = bot.chat(paths=video_paths, text=query, modal_type='video')
         return output
     elif modality=='text':
+        from model.language_model import MedicalAssistant
         question_text = ques
         assistant = MedicalAssistant()
         question = f'''
