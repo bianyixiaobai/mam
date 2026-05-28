@@ -5,7 +5,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 _instance = None
 
 class MedicalAssistant:
-    def __new__(cls, model_name="sethuiyer/Medichat-Llama3-8B", device="cuda:0"):
+    def __new__(cls, model_name="../models/Medichat-Llama3-8B", device="cuda:0"):
         global _instance
         if _instance is not None:
             return _instance
@@ -13,7 +13,7 @@ class MedicalAssistant:
         _instance = instance
         return instance
 
-    def __init__(self, model_name="sethuiyer/Medichat-Llama3-8B", device="cuda:0"):
+    def __init__(self, model_name="../models/Medichat-Llama3-8B", device="cuda:0"):
         if hasattr(self, '_initialized') and self._initialized:
             return
         self.device = device

@@ -7,7 +7,7 @@ from videollama2.model.builder import load_pretrained_model
 
 
 class VideoLLaMAChatbot:
-    def __init__(self, model_path='DAMO-NLP-SG/VideoLLaMA2-7B', device='cuda:0'):
+    def __init__(self, model_path='../models/VideoLLaMA2-7B', device='cuda:0'):
         self.model_path = model_path
         self.device = device
         self.model_name = get_model_name_from_path(model_path)
@@ -66,11 +66,11 @@ def inference():
     modal_list = ['image']
 
     # 1. Initialize the model.
-    model_path = 'DAMO-NLP-SG/VideoLLaMA2-7B'
+    model_path = '../models/VideoLLaMA2-7B'
     # Base model inference (only need to replace model_path)
     # model_path = 'DAMO-NLP-SG/VideoLLaMA2-7B-Base'
     model_name = get_model_name_from_path(model_path)
-    tokenizer, model, processor, context_len = load_pretrained_model(model_path, None, model_name)
+    tokenizer, model, processor, context_len = load_pretrained_model('../models/VideoLLaMA2-7B', None, model_name)
     model = model.to('cuda:0')
     conv_mode = 'llama2'
 

@@ -14,7 +14,7 @@ from PIL import Image
 _instance = None
 
 class HuatuoChatbot():
-    def __new__(cls, model_dir="FreedomIntelligence/HuatuoGPT-Vision-7B", device = 'cuda:0'):
+    def __new__(cls, model_dir="../models/HuatuoGPT-Vision-7B", device = 'cuda:0'):
         global _instance
         if _instance is not None:
             return _instance
@@ -22,7 +22,7 @@ class HuatuoChatbot():
         _instance = instance
         return instance
 
-    def __init__(self, model_dir="FreedomIntelligence/HuatuoGPT-Vision-7B", device = 'cuda:0'):
+    def __init__(self, model_dir="../models/HuatuoGPT-Vision-7B", device = 'cuda:0'):
         # Only initialize once
         if hasattr(self, '_initialized') and self._initialized:
             return
@@ -371,7 +371,7 @@ class HuatuoChatbot():
 #     import argparse
 #     parser = argparse.ArgumentParser(description='Args of Data Preprocess')
 
-#     parser.add_argument('--model_dir', default='FreedomIntelligence/HuatuoGPT-Vision-7B', type=str)
+#     parser.add_argument('--model_dir', default='../models/HuatuoGPT-Vision-7B', type=str)
 #     parser.add_argument('--device', default='cuda:0', type=str)
 #     args = parser.parse_args()
 
